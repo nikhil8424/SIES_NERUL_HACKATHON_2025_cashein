@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Budgeting Basics</title>
+    <style>
+        body {
+            font-family: 'Courier New', Courier, monospace;
+            background: linear-gradient(135deg, #0f0c29, #302b63, #24243e);
+            color: #00ffcc;
+            margin: 0;
+            padding: 20px;
+        }
+
+        h1 {
+            text-shadow: 0 0 5px #00ffcc, 0 0 10px #00ffcc;
+        }
+
+        .content {
+            background-color: rgba(20, 20, 20, 0.8);
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 255, 204, 0.5);
+            display: none;
+        }
+
+        .speaker-container {
+            display: flex;
+            align-items: flex-start;
+            margin: 20px 0;
+            position: relative; 
+        }
+
+        .speaker-image {
+            width: 100px;
+            height: auto; 
+            margin-right: 10px; 
+        }
+
+        .text-bubble {
+            background-color: #00ffcc; 
+            color: #000;
+            border-radius: 10px;
+            padding: 5px 8px;
+            max-width: 150px; 
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5); 
+            word-wrap: break-word;
+        }
+
+        .back-button {
+            margin-top: 20px; 
+            padding: 10px 20px; 
+            background-color: #00ffcc;
+            color: #000;
+            border: none; 
+            border-radius: 5px; 
+            cursor: pointer; 
+            transition: background-color 0.3s;
+        }
+
+        .back-button:hover {
+            background-color: #ff00ff;
+        }
+
+        .next-button, .quiz-button {
+            margin-top: 20px;
+            padding: 10px 20px;
+            background-color: #00ffcc;
+            color: #000;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .next-button:hover, .quiz-button:hover {
+            background-color: #ff00ff;
+        }
+
+        #quiz-container {
+            max-width: 600px;
+            margin: auto;
+            padding: 20px;
+            background-color: rgba(20, 20, 20, 0.8);
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            display: none;
+        }
+
+        #quiz-container button {
+            margin-top: 10px;
+            padding: 10px 20px;
+            background-color: #00ffcc;
+            color: #000;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        #quiz-container button:hover {
+            background-color: #ff00ff;
+        }
+
+        #result-prompt {
+            display: none; 
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: rgba(20, 20, 20, 0.9);
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+            color: #00ffcc;
+            text-align: center;
+        }
+
+        #result-prompt img {
+            width: 150px;
+            vertical-align: middle;
+            margin-right: 10px;
+        }
+
+        #result-prompt .message {
+            display: inline-block;
+            background-color: #00ffcc;
+            color: #000;
+            border-radius: 5px;
+            padding: 10px;
+            position: relative;
+            margin-top: 10px;
+        }
+
+        #final-score {
+            margin-top: 10px;
+            font-size: 1.2em;
+            color: #ff00ff;
+        }
+
+        .hide {
+            display: none;
+        }
+
+        .back-button {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+        }
+
+        #no-button {
+            position: absolute; 
+        }
+
+        .exit-button {
+            position: fixed;
+            bottom: 20px;
+            right: 100px;
+            padding: 10px 20px;
+            background-color: #00ffcc;
+            color: #000;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .exit-button:hover {
+            background-color: #ff00ff;
+        }
+
+
+    </style>
+</head>
+<body>
+    <h1>Budgeting Basics</h1>
+
+    <div class="content" id="content-1">
+        <h2>What it is:</h2>
+        <p>Budgeting is like a plan for your money. It helps you track how much you earn and spend. Saving is setting aside money for future goals.</p>
+        <div class="speaker-container">
+            <img src="man1.png" alt="Theo" class="speaker-image">
+            <div class="text-bubble">Budgeting is the first step partner.</div>
+        </div>
+    </div>
+
+    <div class="content" id="content-2">
+        <h2>Key Concepts:</h2>
+        <ul>
+            <li><strong>Income:</strong> Money you earn (allowance, part-time job).</li>
+            <li><strong>Expenses:</strong> Money you spend (food, entertainment, transportation).</li>
+            <li><strong>Needs vs. Wants:</strong> Needs are essential, wants are things you desire but don't need.</li>
+            <li><strong>50/30/20 Rule:</strong> A budgeting guideline: 50% for needs, 30% for wants, 20% for savings.</li>
+        </ul>
+        <div class="speaker-container">
+            <img src="man1.png" alt="Theo" class="speaker-image">
+            <div class="text-bubble">Let's go over the key concepts, shall we?</div>
+        </div>
+    </div>
+
+    <div class="content" id="content-3">
+        <h2>Tips:</h2>
+        <ul>
+            <li>Track your spending for a week.</li>
+            <li>Create a simple budget.</li>
+            <li>Set realistic savings goals.</li>
+            <li>Look for ways to reduce unnecessary expenses.</li>
+        </ul>
+        <div class="speaker-container">
+            <img src="man1.png" alt="Theo" class="speaker-image">
+            <div class="text-bubble">Hey kid, here's some advice.</div>
+        </div>
+    </div>
+
+    <button class="next-button" id="next-button" onclick="nextContent()">Next</button>
+    <div id="quiz-prompt" class="hide">
+        <h2>Are you ready to start the quiz?</h2>
+        <button class="quiz-button" onclick="startQuiz()">Yes</button>
+        <button class="quiz-button" id="no-button" onmouseover="moveButtonRandomly()">No</button>
+    </div>
+
+    <div id="quiz-container">
+    
+        <h2>Budgeting Quiz</h2>
+        <div id="question"></div>
+        <div id="options"></div>
+    </div>
+
+    <div id="result-prompt">
+        <img src="man1.png" alt="Man Image">
+        <div class="message">Wow, sharp one aren't ya?</div>
+        <div id="final-score">You scored: <span id="score-value"></span></div>
+    </div>
+    <button class="exit-button" onclick="window.location.href='lessons.html'">Exit</button>
+
+    <script>
+        let currentContentIndex = 0;
+        const contents = document.querySelectorAll('.content');
+
+        contents[currentContentIndex].style.display = 'block';
+
+        function nextContent() {
+            contents[currentContentIndex].style.display = 'none';
+            currentContentIndex++;
+          
+            if (currentContentIndex < contents.length) {
+                contents[currentContentIndex].style.display = 'block';
+            } else {
+                document.getElementById('next-button').style.display = 'none';
+                document.getElementById('quiz-prompt').style.display = 'block';
+            }
+        }
+
+        const quizData = [
+            {
+                question: "What is a budget?",
+                options: ["A plan for spending", "A type of investment", "A savings account"],
+                answer: "A plan for spending"
+            },
+            {
+                question: "Why is budgeting important?",
+                options: ["To save money", "To track expenses", "Both"],
+                answer: "Both"
+            }
+        ];
+
+        let currentQuestionIndex = 0;
+        let score = 0;
+
+        function startQuiz() {
+            document.getElementById('quiz-prompt').style.display = 'none';
+            document.getElementById('quiz-container').style.display = 'block';
+            loadQuestion();
+        }
+
+        function loadQuestion() {
+            const currentQuestion = quizData[currentQuestionIndex];
+            document.getElementById('question').innerText = currentQuestion.question;
+            const optionsContainer = document.getElementById('options');
+            optionsContainer.innerHTML = '';
+            currentQuestion.options.forEach(option => {
+                const button = document.createElement('button');
+                button.innerText = option;
+                button.onclick = () => selectAnswer(option);
+                optionsContainer.appendChild(button);
+            });
+        }
+
+        function selectAnswer(selectedOption) {
+            const currentQuestion = quizData[currentQuestionIndex];
+            if (selectedOption === currentQuestion.answer) {
+                score++;
+            }
+            currentQuestionIndex++;
+            if (currentQuestionIndex < quizData.length) {
+                loadQuestion();
+            } else {
+                showResult();
+            }
+        }
+
+        function showResult() {
+            document.getElementById('quiz-container').style.display = 'none';
+            document.getElementById('result-prompt').style.display = 'block';
+            document.getElementById('score-value').innerText = `${score}/${quizData.length}`;
+        }
+
+        function moveButtonRandomly() {
+            const button = document.getElementById('no-button');
+            const x = Math.random() * (window.innerWidth - button.offsetWidth); 
+            const y = Math.random() * (window.innerHeight - button.offsetHeight);
+            button.style.left = `${x}px`; 
+            button.style.top = `${y}px`; 
+        }
+    </script>
+</body>
+</html>

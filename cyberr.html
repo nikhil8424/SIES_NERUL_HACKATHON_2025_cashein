@@ -1,0 +1,590 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Caishen</title>
+  <style>
+body {
+    font-family: 'Courier New', Courier, monospace;
+    background: linear-gradient(135deg, #0f0c29, #302b63, #24243e);
+    background-size: 400% 400%;
+    animation: gradient 5s ease infinite;
+    color: #00ccff;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    perspective: 1px;
+    overflow-x: hidden; /* Prevent horizontal scroll on some browsers */
+    overflow-y: auto;  /* Allow vertical scrolling */
+}
+
+header {
+    background-color: rgba(20, 20, 20, 0.9);
+    color: #fff;
+    padding: 1rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 2px solid #00ccff;
+}
+
+header h1 {
+    font-size: 1.5rem;
+    font-weight: bold;
+    text-shadow: 0 0 5px #00ccff, 0 0 10px #00ccff;
+    margin-right: 20px;
+}
+
+.user-icon {
+    width: 30px;
+    height: auto;
+}
+
+.menu {
+    position: fixed;
+    top: 0;
+    left: -280px;
+    width: 250px;
+    height: 100%;
+    background-color: rgba(20, 20, 20, 0.9);
+    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.5);
+    transition: left 0.3s ease;
+    z-index: 1000;
+    padding: 1rem;
+}
+
+.menu h2 {
+    color: #ff00ff;
+}
+
+.menu a {
+    color: #00ccff;
+    text-decoration: none;
+    display: block;
+    margin: 10px 0;
+}
+
+.menu a:hover {
+    text-decoration: underline;
+    color: #ff00ff;
+}
+
+.menu-toggle {
+    cursor: pointer;
+    color: #00ccff;
+    font-size: 1.5rem;
+    margin-left: 20px;
+}
+
+.close-menu {
+    background-color: transparent;
+    border: none;
+    color: #ff00ff;
+    font-size: 1.5rem;
+    cursor: pointer;
+    margin-bottom: 20px;
+}
+
+main {
+    padding: 1rem;
+    flex: 1;
+    transition: margin-left 0.3s ease;
+}
+
+.charts-container {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 1rem;
+}
+
+.chart-section {
+    background-color: rgba(20, 20, 20, 0.8);
+    padding: 1rem;
+    border-radius: 20px; /* Match log-container style */
+    box-shadow: 0 0 10px rgba(0, 204, 255, 0.5);
+    flex: 1;
+    margin: 0 10px;
+    max-width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 350px;
+}
+
+canvas {
+    height: 120px;
+    width: 80% !important;
+}
+
+section h2 {
+    font-size: 1.5rem;
+    font-weight: bold;
+    margin-bottom: 1rem;
+    color: #ff00ff;
+    text-align: center;
+    text-shadow: 0 0 5px #ff00ff, 0 0 10px #ff00ff;
+}
+
+.finance-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-top: 20px;
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    justify-content: center;
+    align-items: center;
+}
+
+form label {
+    margin-bottom: 0.5rem;
+    font-weight: bold;
+    color: #00ccff;
+    text-align: left;
+    width: 100%;
+}
+
+form input, form button {
+    padding: 0.5rem;
+    border: 1px solid #00ccff;
+    border-radius: 3px;
+    margin-bottom: 0.5rem;
+    width: 95%;
+    background-color: #2a2a2a;
+    color: #00ccff;
+}
+
+form button {
+    background-color: #00ccff;
+    color: #000;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+form button:hover {
+    background-color: #ff00ff;
+}
+
+.card {
+    padding: 1rem;
+    background-color: rgba(20, 20, 20, 0.8); 
+    box-shadow: 0 0 10px rgba(0, 204, 255, 0.5);
+    flex: 1;
+    max-width: 300px;
+    height: 350px;
+    overflow-y: auto;
+    border-radius: 20px;
+    transition: all .3s;
+}
+
+
+.log-container:hover {
+    box-shadow: 0px 0px 30px 1px rgba(0, 255, 117, 0.30);
+}
+
+.log-entry {
+    background-color:  rgba(20, 20, 20, 1);
+    color: #00ccff;
+    padding: 0.114rem;
+    border-radius: 3px;
+    margin: 0.3rem 0;
+    width: 90%;
+    text-align: left;
+}
+
+.learn-container {
+    margin-top: 20px;
+    text-align: center;
+    background-color: rgba(20, 20, 20, 0.8);
+    padding: 1rem;
+    border-radius: 20px; /* Match log-container style */
+    box-shadow: 0 0 10px rgba(0, 204, 255, 0.5);
+    width: 100%;
+    height: 350px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.lesson-button {
+    padding: 10px 20px;
+    background-color: #00ccff;
+    color: #000;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    margin-top: 10px;
+}
+
+.lesson-button:hover {
+    background-color: #ff00ff;
+}
+
+.goal-container {
+    background-color: rgba(20, 20, 20, 0.8);
+    padding: 1rem;
+    border-radius: 20px; /* Match log-container style */
+    box-shadow: 0 0 10px rgba(0, 204, 255, 0.5);
+    margin-top: 20px;
+}
+
+.goal-item {
+    color: #00ccff;
+    margin: 5px 0;
+}
+
+.add-goal-button {
+    padding: 10px 20px;
+    background-color: #00ccff;
+    color: #000;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    margin-top: 10px;
+}
+
+.add-goal-button:hover {
+    background-color: #ff00ff;
+}
+
+footer {
+    background-color: rgba(20, 20 , 20, 0.9);
+    color: #fff;
+    padding: 1rem;
+    text-align: center;
+    border-top: 2px solid #00ccff;
+}
+
+@keyframes gradient {
+    0% { background-position: 0%  50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
+        #daily-summary {
+            display: none;
+            background-color: #00ffcc;
+            color: #000;
+            padding: 1rem;
+            border-radius: 5px;
+            box-shadow: 0 0 15px rgba(0, 255, 204, 0.8);
+            text-align: center;
+            font-weight: bold;
+            font-size: 1.2rem;
+            margin-top: 10px;
+            animation: popUp 0.5s ease-out;
+            position: relative;
+            z-index: 100;
+        }
+
+
+@keyframes popUp {
+    0% {
+        transform: scale(0.5);
+        opacity: 0;
+    }
+    50% {
+        transform: scale(1.2);
+        opacity: 1;
+    }
+    100% {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+#daily-summary {
+    border: 2px solid #ff00ff;
+}
+
+#daily-summary:hover {
+    background-color: #00e6b8;
+    box-shadow: 0 0 20px rgba(0, 204, 255, 1);
+}
+
+.input {
+  background-color: #212121;
+  max-width: 190px;
+  height: 10px;
+  padding: 10px;
+  text-align: center; 
+  border: 2px lavender;
+  border-radius: 5px;
+}
+
+.input:focus {
+  color: rgb(0, 255, 255);
+  background-color: #212121;
+  outline-color: rgb(0, 255, 255);
+  box-shadow: -3px -3px 15px rgb(0, 255, 255);
+  transition: .1s;
+  transition-property: box-shadow;
+}
+</style>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <header>
+        <div class="menu-toggle" onclick="toggleMenu()">Menu</div>
+        <h1>Bruce</h1>
+        <img src="profile.jpg" alt="User  Icon" class="user-icon">
+    </header>
+
+    <div class="menu" id="menu">
+        <h2>Menu</h2>
+        <a href="achievements.html">Achievements</a>
+        <a href="profile.html">Profile</a>
+        <button class="close-menu" onclick="toggleMenu()">Back</button>
+    </div>
+    <main>
+        <div class="charts-container">
+            <div class="chart-section">
+                <h2>Daily Spendings</h2>
+                <canvas id="spendingChart"></canvas>
+            </div>
+
+            <div class="chart-section">
+                <h2>Monthly Spendings</h2>
+                <canvas id="monthlyChart"></canvas>
+            </div>
+        </div>
+
+        <div class="finance-container">
+            <div class="chart-section">
+                <h2>Manage Your Finances</h2>
+                <form id="finance-form">
+                    <label for="amount">Amount:</label>
+                    <input type="number" id="amount" name="amount" required class="input">
+                    <label for="description">Description:</label>
+                    <input type="text" id="description" name="description" required class="input">
+                    <div>
+                        <button type="button" onclick="addSpending()">Add Spending</button>
+                        <button type="button" onclick="resetSpending()">Reset</button>
+                    </div>
+                </form>
+            </div>
+
+             <div class="card"><h2>  Spending Log</h2>
+                <div id="log-entries"></div></div>
+        </div>
+
+        <div class="goal-container">
+            <h2>Savings Goals</h2>
+            <div id="goal-list"></div>
+            <input type="text" id="goal-input" placeholder="Enter your savings goal (e.g., Save $500)" class="input">
+            <button class="add-goal-button" onclick="addGoal()">Add Goal</button>
+        </div>
+
+        <div class="learn-container">
+            <h2>Learn Finance</h2>
+            <button class="lesson-button" onclick="window.location.href='lessons.html'">Start Learning</button>
+        </div>
+	<div class="daily-summar"></div>
+        <div class="learn-container">
+            <h2></h2>
+            <button class="lesson-button" id="end-day-btn">End Day</button>
+            <div id="daily-summary" style="display: none;"></div>
+        </div>
+    </main>
+
+    <footer>
+        <p>© 2025 Caishen. All rights reserved.</p>
+    </footer>
+    <script>
+ let dailyAllowance = 100;
+    let monthlyAllowance = 3000;
+    let totalSpentDaily = 0;
+    let totalSpentMonthly = 0;
+    let logEntries = [];
+    let goals = [];
+
+    const ctxDaily = document.getElementById('spendingChart').getContext('2d');
+    let spendingChart = new Chart(ctxDaily, {
+        type: 'pie',
+        data: {
+            labels: ['Spent', 'Remaining'],
+            datasets: [{
+                data: [totalSpentDaily, dailyAllowance - totalSpentDaily],
+                backgroundColor: ['#ff6384', '#36a2eb'],
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: {
+                    position: 'top',
+                },
+                tooltip: {
+                    callbacks: {
+                        label: function(tooltipItem) {
+                            return tooltipItem.label + ': ' + tooltipItem.raw;
+                        }
+                    }
+                }
+            }
+        }
+    })
+
+        const ctxMonthly = document.getElementById('monthlyChart').getContext('2d');
+        let monthlyChart = new Chart(ctxMonthly, {
+            type: 'bar',
+            data: {
+                labels: ['Spent', 'Remaining'],
+                datasets: [{
+                    label: 'Monthly Spending',
+                    data: [totalSpentMonthly, monthlyAllowance - totalSpentMonthly],
+                    backgroundColor: ['#ff6384', '#36a2eb'],
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        position: 'top',
+                    },
+                    tooltip: {
+                        callbacks: {
+                            label: function(tooltipItem) {
+                                return tooltipItem.label + ': ' + tooltipItem.raw }
+                        }
+                    }
+                },
+                onClick: function(evt) {
+                    const activePoints = monthlyChart.getElementsAtEventForMode(evt, 'nearest', { intersect: true }, false);
+                    if (activePoints.length) {
+                        window.location.href = 'monthly-details.html';
+                    }
+                }
+            }
+        });
+
+        function addSpending() {
+            const amount = parseFloat(document.getElementById('amount').value);
+            const description = document.getElementById('description').value;
+
+            if (!isNaN(amount) && amount > 0) {
+                totalSpentDaily += amount;
+                totalSpentMonthly += amount;
+                logEntries.push({ amount, description });
+                updateCharts();
+                updateLog();
+
+                goals.forEach(goal => {
+                    goal.progress += amount;
+                });
+                updateGoalList();
+
+                document.getElementById('finance-form').reset();
+            } else {
+                alert('Please enter a valid amount.');
+            }
+        }
+
+        function resetSpending() {
+            totalSpentDaily = 0;
+            totalSpentMonthly = 0;
+            logEntries = [];
+            goals.forEach(goal => goal.progress = 0);
+            updateCharts();
+            updateLog();
+            updateGoalList();
+            document.getElementById('finance-form').reset();
+        }
+
+        function updateCharts() {
+            spendingChart.data.datasets[0].data = [totalSpentDaily, dailyAllowance - totalSpentDaily];
+            spendingChart.update();
+
+            monthlyChart.data.datasets[0].data = [totalSpentMonthly, monthlyAllowance - totalSpentMonthly];
+            monthlyChart.update();
+        }
+
+        function updateLog() {
+            const logContainer = document.getElementById('log-entries');
+            logContainer.innerHTML = '';
+            logEntries.forEach(entry => {
+                const logEntryDiv = document.createElement('div');
+                logEntryDiv.className = 'log-entry';
+                logEntryDiv.textContent = `Amount: $${entry.amount.toFixed(2)}, Description: ${entry.description}`;
+                logContainer.appendChild(logEntryDiv);
+            });
+        }
+
+        function toggleMenu() {
+            const menu = document.getElementById('menu');
+            if (menu.style.left === '0px') {
+                menu.style.left = '-280px';
+            } else {
+                menu.style.left = '0px';
+            }
+        }
+
+        function addGoal() {
+            const goalInput = document.getElementById('goal-input');
+            const goalValue = goalInput.value.trim();
+
+            if (goalValue) {
+                const goalAmount = parseFloat(goalValue.match(/\d+/)[0]);
+                const goalItem = {
+                    description: goalValue,
+                    progress: 0,
+                    target: goalAmount
+                };
+                goals.push(goalItem);
+                updateGoalList();
+                goalInput.value = '';
+            } else {
+                alert('Please enter a valid savings goal.');
+            }
+        }
+
+        function updateGoalList() {
+            const goalListContainer = document.getElementById('goal-list');
+            goalListContainer.innerHTML = '';
+            goals.forEach(goal => {
+                const goalItemDiv = document.createElement('div');
+                goalItemDiv.className = 'goal-item';
+                goalItemDiv.textContent = `Goal: ${goal.description} - Completed: $${goal.progress.toFixed(2)} (${((goal.progress / goal.target) * 100) || 0}%)`;
+                goalListContainer.appendChild(goalItemDiv);
+            });
+        }
+
+        let totalSpent = 0;
+        const dailyLimit = 100;
+
+        document.getElementById("end-day-btn").addEventListener("click", function () {
+            const savings = dailyAllowance - totalSpentDaily;
+
+            let summary;
+            if (savings >= 0) {
+                summary = `Day ended, you have saved $${savings.toFixed(2)}`;
+            } else {
+                summary = `Day ended, you exceeded your daily allowance by $${Math.abs(savings).toFixed(2)}`;
+            }
+
+            const summaryDiv = document.getElementById("daily-summary");
+            summaryDiv.innerText = summary;
+            summaryDiv.style.display = "block";
+
+            totalSpentDaily = 0;
+            updateCharts();
+
+            logEntries = [];
+            updateLog();
+        });
+    </script>
+</body>
+</html>
