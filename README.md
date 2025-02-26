@@ -90,11 +90,4 @@ Cáishén uses varied prompts to keep users engaged and entertained. Examples in
 
 
 
-## Contributing
 
-[Explain how others can contribute to the project, including guidelines for contributing code, reporting bugs, or suggesting features.]
-
-
-## License
-
-[Specify the license under which the project is distributed (e.g., MIT License, Apache 2.0). Include the full license text if possible or a link to the license file.]
